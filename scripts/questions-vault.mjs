@@ -55,8 +55,13 @@ async function encrypt() {
   if (problems.length) throw new Error(`questions.json có lỗi, chưa mã hóa:\n - ${problems.join('\n - ')}`)
 
   const password = await readPassword({ confirm: true })
-  // the title is not secret: it is stored in the clear so the lock screen can show it
-  const vault = { title: data.meta.title, ...(await encryptJson(data, password)) }
+  // not secret, so stored in the clear: the rules and lock screens show them before anything is decrypted
+  const vault = {
+    title: data.meta.title,
+    timerSeconds: data.meta.timerSeconds,
+    questionCount: data.questions.length,
+    ...(await encryptJson(data, password)),
+  }
   // prove the file we are about to write really opens with this password
   const back = await decryptJson(vault, password)
   if (JSON.stringify(back) !== JSON.stringify(data)) throw new Error('Kiểm tra giải mã thất bại, chưa ghi file.')

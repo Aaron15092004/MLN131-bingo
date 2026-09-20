@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import vault from './data/questions.enc.json'
+import { Rules } from './components/Rules.jsx'
 import { Unlock } from './components/Unlock.jsx'
 import { getDataProblems } from './lib/data.js'
 import HostView from './views/HostView.jsx'
@@ -19,8 +20,11 @@ function DataProblems({ problems }) {
 }
 
 export default function App() {
-  // The site ships only the encrypted questions. Once unlocked they live in memory only, never in storage.
+  // Rules first, then the password. The site ships only the encrypted questions;
+  // once unlocked they live in memory only, never in storage.
+  const [started, setStarted] = useState(false)
   const [data, setData] = useState(null)
+  if (!started) return <Rules vault={vault} onStart={() => setStarted(true)} />
   if (!data) return <Unlock vault={vault} onUnlock={setData} />
 
   const problems = getDataProblems(data)
