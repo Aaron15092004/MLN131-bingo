@@ -1,2 +1,5 @@
 node_modules
 dist
+
+# plaintext questions + answers: only the encrypted src/data/questions.enc.json is committed
+src/data/questions.json

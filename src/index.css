@@ -102,6 +102,12 @@
   dialog::backdrop {
     background: rgb(3 8 22 / 0.82);
   }
+
+  /* Edge draws its own "show password" eye; the password screen has its own toggle */
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
